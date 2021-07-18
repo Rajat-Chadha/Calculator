@@ -1,10 +1,50 @@
+var operand1 = 0;
+var operand2 = null;
+var operator = null;
+
+function IsOperator(name) {
+    return name == "+" || name == "-" || name == "*" || name == "/";
+}
+
+document.addEventListener('keydown', (event) => {
+    var name = event.key;
+    var text = display.textContent.trim();
+
+    if (IsOperator(name)) {
+        operator = name;
+        operand1 = parseFloat(text);
+        display.textContent = "";
+    }   else if (name == ".") {
+        if (text.length && !text.includes('.')) {
+            display.textContent = text + '.';
+        }
+    }
+        else if (name == "Escape") {
+            display.textContent = "";
+    } else if (name == "%") {
+        operand1 = parseFloat(text);
+        operand1 = operand1 / 100;
+        display.textContent = operand1
+    } else if (name == "=" || name == "Enter") {
+        operand2 = parseFloat(text);
+        var result = eval(operand1 + ' ' + operator + ' ' + operand2);
+        if (result) {
+            display.textContent = result;
+            operand1 = result;
+            operand2 = null;
+            operator = null;
+        }
+    } else {
+        display.textContent += name;
+    }
+  });
+
+
 var buttons = document.getElementsByClassName("button");
 var display = document.getElementById("display");
 
 // display.textContent = 0;
-var operand1 = 0;
-var operand2 = null;
-var operator = null;
+
 
 function isOperator(value) {
     return value == "+" || value == "-" || value == "*" || value == "/";
